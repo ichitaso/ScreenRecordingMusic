@@ -1,0 +1,6 @@
+#!/bin/bash
+killall -9 replayd
+launchctl unload -w /System/Library/LaunchDaemons/com.apple.replayd.plist
+launchctl load -w /System/Library/LaunchDaemons/com.apple.replayd.plist
+launchctl start /System/Library/LaunchDaemons/com.apple.replayd.plist
+exit 0

@@ -1,0 +1,14 @@
+Author: ichitaso
+Maintainer: ichitaso
+Package: com.ichitaso.srmusic
+Name: ScreenRecordingMusic
+Pre-Depends: firmware (>= 12.0)
+Depends: mobilesubstrate
+Section: Tweaks
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Screen recording is available anywhere!
+Depiction: https://cydia.ichitaso.com/depiction/srmusic.html
+Homepage: https://ichitaso.com
+dev: ichitaso
+Tag: purpose::extension, compatible::ios12, compatible::ios13 , compatible::ios14

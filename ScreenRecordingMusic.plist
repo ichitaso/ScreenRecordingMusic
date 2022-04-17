@@ -1,0 +1,6 @@
+{
+	Filter = {
+		Executables = ("replayd");
+		Bundles = ("com.apple.UIKit");
+	};
+}
