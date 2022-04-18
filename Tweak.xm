@@ -1,23 +1,63 @@
 #import <Foundation/Foundation.h>
 
+#define Notify_Preferences "com.ichitaso.srmusic.preferencechanged"
+
+static BOOL isRecording;
+
+@interface AVPlayer : NSObject
+- (void)setMuted:(BOOL)arg1;
+- (BOOL)isMuted;
+@end
+
 %group Recorder
-%hook RPRecordingManager
+// Check Recording
+%hook RPScreenRecorder
+- (void)setRecording:(BOOL)arg1 {
+    %orig;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@Notify_Preferences object:nil];
+}
+%end
 // Enable Lockscreen Recording
+%hook RPRecordingManager
 - (void)setUpDeviceLockNotifications {}
 - (void)setDeviceLocked:(BOOL)arg1 {
     %orig(NO);
 }
--(BOOL)deviceLocked {
+- (BOOL)deviceLocked {
     return NO;
 }
 %end
-// Enable Music Recording
+// Check Recording
 %hook AVPlayer
+- (id)init {
+    id orig = %orig;
+
+    [[NSNotificationCenter defaultCenter] addObserver:orig
+                                             selector:@selector(recievedUpdate)
+                                                 name:@Notify_Preferences
+                                               object:nil];
+
+    return orig;
+}
+%new
+- (void)recievedUpdate {
+    isRecording = YES;
+    [self isMuted];
+    [self setMuted:NO];
+}
+// Enable Music Recording
 - (BOOL)isMuted {
-    return NO;
+    if (isRecording) {
+        return NO;
+    }
+    return %orig;
 }
 - (void)setMuted:(BOOL)arg1 {
-    %orig(NO);
+    if (isRecording) {
+        %orig(NO);
+    } else {
+        %orig;
+    }
 }
 %end
 %end
