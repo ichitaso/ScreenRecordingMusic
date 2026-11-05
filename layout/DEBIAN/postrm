@@ -1,6 +1,4 @@
-#!/bin/bash
-killall -9 replayd
-launchctl unload -w /System/Library/LaunchDaemons/com.apple.replayd.plist
-launchctl load -w /System/Library/LaunchDaemons/com.apple.replayd.plist
-launchctl start /System/Library/LaunchDaemons/com.apple.replayd.plist
+#!/bin/sh
+# replayd is relaunched on demand by launchd
+killall -9 replayd 2>/dev/null
 exit 0
